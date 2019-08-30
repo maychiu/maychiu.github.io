@@ -1,0 +1,172 @@
+<html>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+<link href="https://fonts.googleapis.com/css?family=Karla:400,700|Martel:400,700" rel="how stylesheet">
+
+<style>
+#header{
+  height:38px;
+  padding: 15px;
+  text-align: center; 
+  color: black;
+  background: #F3DCD4;
+  font-family: 'Karla', sans-serif;
+  text-transform: uppercase;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+@media only screen and (max-width: 340px){
+  header{
+  font-size: 20px;
+  }
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+}
+
+.versesDisplay{
+  position: absolute;
+  text-align: center;
+  padding: 0 20px 20px 20px;
+  top: 110px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+
+#input-select{
+  height: 20px;
+  display:grid;
+  background-color: white; 
+  grid-template-columns: 50% 50%;
+  grid-gap: 0px;
+  margin: 0px 0px;
+  padding: 10px 20px 0px 0px;
+}
+
+.item-left{
+  justify-self: center;
+  align-self: left;
+  width: 70%;
+  text-align:center;
+}
+
+.item-right{
+  justify-self: center;
+  align-self: center;
+  text-align: center;
+  width: 70%;
+}
+select{
+    text-align:center;
+    text-align-last:center;
+}
+
+.scroll-wrapper{
+  	-webkit-overflow-scrolling: touch;
+    
+}
+
+.scroll-wrapper iframe{
+  height: 100%;
+  width: 100%;
+}
+</style>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<body class="container">
+  <div id="header">James Study's Verses</div> 
+  <div id="input-select">
+    <div class="form-group item-left">
+      <label>Select a lesson</label>
+      <select class="form-control" id="lesson">
+        <option></option>
+      </select>   
+    </div>
+    <div class="form-group item-right">
+      <label>Select a question</label>
+      <select class="form-control" id="question">
+        <option></option> 
+      </select>   
+    </div>
+  </div>  
+  <div class="versesDisplay scroll-wrapper" id= "verses">
+  </div>
+</body>
+
+<script>
+let verseList = { "1": ["Matt+13%3A55%3B+Mark+6%3A3%3B+John+7%3A5%3B+Gal.1%3A19%2C+2%3A9-10%3B+Jude+1","" , "John+7%3A5%3B+1+Cor.+15%3A7%3B+Acts+1%3A14%3B+Gal+1%3A19%2C+2%3A9%2C+12%3B+Acts+12%3A17%3B+15%3A13%3B+21%3A18%3B+Gal+2%3A12%29%3F", "James+1%3A1%3B+Acts+12%2C+james+1%3A2%2C+16%2C+19%3B+2%3A1%2C+5%2C+14%3B+3%3A1%2C+10%2C+12%3B+4%3A11%3B+5%3A7%2C+9%2C+10%2C+12%2C+19", "","acts+12", "john+7%3A35"], "2" :["James+1%3A2-8", "", "", "", "", "", "", "", "","Luke+10%3A30%2C+Acts+27%3A41", "James+2%3A1", "1Peter+1%3A6-9" , "Romans+5%3A3%2C+James+1%3A3%2C+2+Thess+1%3A4","Heb+12%3A2", "", "", "", "", "James+3%3A13%2C+3%3A17", "prov+9%3A10%2C+jam+4%3A6%2C", "", "", "matt+5%3A10-12%2C+luke+6%3A22-23"], "3":["", "james+1%3A9-11", "Acts+2%3A45%2C+4%3A35", "", "", "", "Eph+1%3A1-13%2C+2%3A10%2C+col+3%3A12-13%2C+1+Peter+1%3A3-4%2C+1+Pet+2%3A5%2C+9", "", "", "", "", "Isa+40%3A6-8", "Luke+12%3A13-31", "Heb 11:24-26","matt+25%3A34%2C+2+cor+4%3A17", "ps+73"] , "4": ["","james+1%3A3-18", "", "Ps+16%3A11%2C+John+17%3A3%2C+Rev+3%3A7-13","","John+1%3A12%2C+eph+2%3A8-9", "rev+3%3A7-13", "1+pet+5%3A4%2C+2+tim+4%3A8%2C+Heb+2%3A9%2C+Rev+2%3A10", "Gen+3%3A12%2C+Pro+19%3A3", "", "Gen+3%3A6%2C+Deu+5%3A21%2C+Job+21%3A14%2C+Prov+6%3A25%2C21%3A10%2C+24%3A1%2C+Micah+7%3A3", "mark+7%3A21-23", "Prov+4%3A23%2C+Matt+6%3A21%2C+Luke+6%3A45", "Job+22%3A27%2C+Ps+1%2C+Ps+32%3A6%2C+109%3A4%2C+119%3A10-12%2C+Prov+15%3A8%2C+Luke+10%3A42%2C+Eph+4%3A15-16%2C+Heb+3%3A12-14%2C+1Tim+2%3A15++", "", "", "Gen+39%3A8-9%2C+Prov+10%3A22%2C+Luke+12%3A1-34", "", "Ezek+44%3A29-30%2C+1+Cor+15%3A20-23%2C+Rev+14%3A4" ]     
+}
+
+$(document).ready(function(){
+  let studyVerses = new StudyVerses();
+  studyVerses.render();
+});
+
+
+class StudyVerses{
+  constructor(){
+//    this.setLesson();
+//    this.setQuestion();
+    this.setListeners();
+    this.listLessonOptions();
+  }
+  
+  setLesson(lesson){
+    this.currentLesson = lesson;
+    $("#question").empty();
+    $(".versesDisplay").empty();
+    this.listQuestionsInLesson(lesson);
+  }
+  
+  setQuestion(question){
+    this.currentQuestion = question;
+  }
+  
+  setListeners(){
+    $("#lesson").change(this.handleLessonSelectInput.bind(this));
+    $("#question").change(this.handleQuestionSelectInput.bind(this));
+  }
+   
+  listLessonOptions(){
+    let lessons = Object.keys(verseList);
+    for(let i = 0; i<lessons.length; i++){
+      $("#lesson").append("<option>"+lessons[i]+"</option>")    
+    }
+  }
+  
+  listQuestionsInLesson(lesson){
+    $("#question").append("<option> </option>");
+    for (let i = 0; i < verseList[this.currentLesson].length; i++){
+      if (verseList[this.currentLesson][i] != ""){
+          $("#question").append("<option>"+ (i+1) +"</option>");
+          }
+    }  
+  }
+  
+  handleLessonSelectInput(){
+    let lesson = $("#lesson").val();
+    this.setLesson(lesson);
+//    this.render();
+  }
+  
+  handleQuestionSelectInput(){
+    let question = $("#question").val();
+    this.setQuestion(parseInt(question)-1);
+    this.render();
+  }
+  render(){
+  let  versesRequest = verseList[this.currentLesson][this.currentQuestion];
+    $("#verses").html('<iframe src="https://www.biblegateway.com/passage/?search='+versesRequest+'&version=NASB&interface=print" frameBorder="0"</iframe>' );
+  }
+}
+</script>
+
+</html>
+  
+
